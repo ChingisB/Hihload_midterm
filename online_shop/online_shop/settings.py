@@ -30,7 +30,7 @@ DATABASE_URL = config('DATABASE_URL')
 REDIS_URL = config('REDIS_URL')
 
 # Allowed hosts
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -92,7 +92,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_URL,
+        'LOCATION': "redis://redis:6379/1",
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -122,10 +122,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    )
+}
+
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
 }
 
 

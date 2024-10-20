@@ -51,7 +51,7 @@ urlpatterns = [
     # Product URLs
     path('products/', ProductListCreateView.as_view(), name='product-list'),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
-    path('products/<int:product_id>/inventory/', ProductInventoryView.as_view(), name='product-inventory'),
+    path('products/<int:pk>/inventory/', ProductInventoryView.as_view(), name='product-inventory'),
 
     # Category URLs
     path('categories/', CategoryListCreateView.as_view(), name='category-list'),
@@ -60,8 +60,10 @@ urlpatterns = [
     path('customer/info/create/', CustomerCreateView.as_view(), name="create_customer_info"),
     path('customer/info/', CustomerDetailView.as_view(), name="retrieve_customer_info"),
     path('orders/', OrderInfoView.as_view(), name="orders"),
+    path('orders/<int:order_id>', OrderInfoView.as_view(), name="concrete_order"),
     path('address/create', ShippingAddressCreateView.as_view(), name="create_shipping_address"),
     path('adress/', ShippingAddressDetailView.as_view(), name="retrive_shipping_address"),
+    path('adress/create', ShippingAddressDetailView.as_view(), name="retrive_shipping_address"),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

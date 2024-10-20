@@ -12,7 +12,6 @@ class ProductCategoryInline(admin.TabularInline):
 class InventoryInline(admin.StackedInline):
     model = Inventory
     extra = 0
-    readonly_fields = ['count']
 
 
 @admin.register(Product)
@@ -32,7 +31,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class InventoryAdmin(admin.ModelAdmin):
     list_display = ['product', 'count']
     search_fields = ['product__name']
-    readonly_fields = ['product']
 
 
 @admin.register(ProductCategory)
