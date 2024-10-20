@@ -28,7 +28,7 @@ class CustomerDetailView(generics.RetrieveUpdateAPIView):
         return self.get_queryset().first()
 
 
-class OrderInfoView(generics.APIView):
+class OrderInfoView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, order_id=None):

@@ -30,7 +30,7 @@ class ProductCategory(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['post', 'tag']),
-            models.Index(fields=['tag']),
+            models.Index(fields=['category', 'product']),
+            models.Index(fields=['category']),
         ]
-        unique_together = ('post', 'tag') 
+        unique_together = ('category', 'product') 
