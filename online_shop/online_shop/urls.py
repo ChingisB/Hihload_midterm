@@ -16,11 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_swagger.views import get_swagger_view
+from rest_framework.authtoken.views import obtain_auth_token
 from products.views import (
     ProductListCreateView, ProductDetailView,
     CategoryListCreateView, CategoryDetailView,
     ProductInventoryView
 )
+from orders.views import(
+    CustomerCreateView, CustomerDetailView, 
+    OrderInfoView, ShippingAddressCreateView, ShippingAddressDetailView
+)
+
+schema_view = get_swagger_view(title='China Shop')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +41,12 @@ urlpatterns = [
     # Category URLs
     path('categories/', CategoryListCreateView.as_view(), name='category-list'),
     path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
+
+    path('customer/info/create/', CustomerCreateView.as_view(), name="create_customer_info"),
+    path('customer/info/', CustomerDetailView.as_view(), name="retrieve_customer_info"),
+    path('orders/', OrderInfoView.as_view(), name="orders"),
+    path('address/create', ShippingAddressCreateView.as_view(), name="create_shipping_address"),
+    path('adress/', ShippingAddressDetailView.as_view(), name="retrive_shipping_address"),
+    path('/', schema_view, name="swagger"),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]

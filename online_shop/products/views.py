@@ -1,27 +1,26 @@
-# books/views.py
-
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .models import Product, Inventory, Category
 from .serializers import CategorySerializer, InventorySerializer, ProductSerializer
 
 
-class CategoryListCreateView(generics.ListCreateAPIView):
+class CategoryListCreateView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CategoryDetailView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class =  CategorySerializer
 
 
-class ProductListCreateView(generics.ListCreateAPIView):
+class ProductListCreateView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
-class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
