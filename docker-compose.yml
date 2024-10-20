@@ -1,0 +1,98 @@
+version: '3'
+
+services:
+  django1:
+    build:
+      context: ./online_shop
+      dockerfile: dockerfile
+    container_name: django_app_1
+    ports:
+      - "8001:8001"
+    environment:
+      - DEBUG=1
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://myuser:mypassword@db:5432/mydb  
+    volumes:
+      - ./online_shop:/online_shop 
+    command: gunicorn online_shop.wsgi:application --bind 0.0.0.0:8001
+    depends_on:
+      - redis 
+
+  django2:
+    build:
+      context: ./online_shop
+      dockerfile: dockerfile
+    container_name: django_app_2
+    ports:
+      - "8002:8002"
+    environment:
+      - DEBUG=1
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://myuser:mypassword@db:5432/mydb  
+    volumes:
+      - ./online_shop:/online_shop 
+    command: gunicorn online_shop.wsgi:application --bind 0.0.0.0:8002
+    depends_on:
+      - redis 
+
+  django3:
+    build:
+      context: ./online_shop
+      dockerfile: dockerfile
+    container_name: django_app_3
+    ports:
+      - "8003:8003"
+    environment:
+      - DEBUG=1
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://myuser:mypassword@db:5432/mydb  
+    volumes:
+      - ./online_shop:/online_shop 
+    command: gunicorn online_shop.wsgi:application --bind 0.0.0.0:8003
+    depends_on:
+      - redis 
+
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf 
+    links:
+      - django1
+      - django2
+      - django3
+    depends_on:
+      - django1
+      - django2
+      - django3
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

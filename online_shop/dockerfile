@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+
+WORKDIR /online_shop
+
+
+COPY requirements.txt /online_shop/
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY . /online_shop//
+
+
+EXPOSE 8000
